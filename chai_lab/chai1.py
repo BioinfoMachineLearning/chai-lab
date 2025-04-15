@@ -491,7 +491,7 @@ def make_all_atom_feature_context(
     return feature_context
 
 
-def get_model() -> Model:
+def get_model(torch_device: torch.device) -> Model:
     return Model(
         feature_embedding=load_exported("feature_embedding.pt", torch_device),
         bond_loss_input_proj=load_exported("bond_loss_input_proj.pt", torch_device),
@@ -552,7 +552,7 @@ def run_inference(
     ##
 
     model_cached = model is not None
-    model = model or get_model()
+    model = model or get_model(torch_device)
 
     all_candidates: list[StructureCandidates] = []
     for trunk_idx in range(num_trunk_samples):
